@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Temperapp</string>
+    <string name="inputtemp">Digite a temperatura (em Celsius)</string>
+    <string name="inputclima">Insira o clima</string>
+    <string name="processtemp">Processar temperatura</string>
+    <string name="temperatura">Temperatura</string>
+    <string name="celsius">°C</string>
+    <string name="kelvin">K</string>
+    <string name="fahrenheit">°F</string>
+
+    <string-array name="climarray">
+        <item>Ensolarado</item>
+        <item>Parcialmente Nublado</item>
+        <item>Muito Nublado</item>
+        <item>Nublado</item>
+        <item>Garoa</item>
+        <item>Chuvoso</item>
+        <item>Tempestade</item>
+    </string-array>
+</resources>
