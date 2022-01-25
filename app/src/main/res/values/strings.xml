@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Temperapp</string>
+    <string name="google_map_api_key">AIzaSyAO1imokwAI0HbgJAQcAUily2vn8yGCQLw</string>
+    
     <string name="inputtemp">Digite a temperatura (em Celsius)</string>
     <string name="inputclima">Insira o clima</string>
     <string name="processtemp">Processar temperatura</string>
@@ -7,6 +9,7 @@
     <string name="celsius">°C</string>
     <string name="kelvin">K</string>
     <string name="fahrenheit">°F</string>
+    <string name="city">Minha cidade</string>
 
     <string-array name="climarray">
         <item>Ensolarado</item>
