@@ -47,8 +47,6 @@ class LocationActivity : AppCompatActivity() {
                     } else{
                         binding.tvcity.text = "Sua localização é: \nLat:" + location.latitude + "; Long:" + location.longitude
                     }
-
-
                 }
             } else
                 Toast.makeText(this,"Habilite a localização imediatamente",Toast.LENGTH_SHORT).show()
@@ -76,6 +74,8 @@ class LocationActivity : AppCompatActivity() {
 
     private val locationCallback = object : LocationCallback(){
         override fun onLocationResult(p0: LocationResult) {
+            super.onLocationResult(p0)
+
             var lastLocation = p0.lastLocation
             binding.tvcity.text = "Sua localização é: \nLat:" + lastLocation.latitude + "; Long:" + lastLocation.longitude
 
