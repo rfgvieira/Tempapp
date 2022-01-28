@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="xxsmall">2dp</dimen>
+    <dimen name="xsmall">4dp</dimen>
+    <dimen name="small">8dp</dimen>
+    <dimen name="xnormal">16dp</dimen>
+    <dimen name="normal">24dp</dimen>
+    <dimen name="xlarge">32dp</dimen>
+    <dimen name="large">64dp</dimen>
+
+    <dimen name="txt_xxsmall">2sp</dimen>
+    <dimen name="txt_xsmall">4sp</dimen>
+    <dimen name="txt_small">8sp</dimen>
+    <dimen name="txt_xnormal">16sp</dimen>
+    <dimen name="txt_normal">24sp</dimen>
+    <dimen name="txt_xlarge">32sp</dimen>
+    <dimen name="txt_large">64sp</dimen>
+
+    <dimen name="verylarge">100dp</dimen>
+    <dimen name="image">150dp</dimen>
+</resources>
