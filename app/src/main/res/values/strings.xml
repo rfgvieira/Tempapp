@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Temperapp</string>
     <string name="google_map_api_key">AIzaSyB--Rcr1pkBT1GVZUC9al2uVKlzy44FeD0</string>
+    <string name="weather_key">e09ac49beb2d17c3031769746ac59175</string>
     
     <string name="inputtemp">Digite a temperatura (em Celsius)</string>
     <string name="inputclima">Insira o clima</string>

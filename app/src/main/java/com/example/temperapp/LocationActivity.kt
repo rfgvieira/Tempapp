@@ -3,6 +3,8 @@ package com.example.temperapp
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 
@@ -14,6 +16,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.example.temperapp.databinding.ActivityLocationBinding
 import com.google.android.gms.location.*
+import java.util.*
 
 
 import java.util.jar.Manifest
@@ -45,7 +48,7 @@ class LocationActivity : AppCompatActivity() {
                     if(location == null){
                         getNewLocation()
                     } else{
-                        binding.tvcity.text = "Sua localização é: \nLat:" + location.latitude + "; Long:" + location.longitude
+                        binding.tvcity.text = "Sua cidade é:\n" + getCity(location.latitude,location.longitude)
                     }
                 }
             } else
@@ -77,15 +80,30 @@ class LocationActivity : AppCompatActivity() {
             super.onLocationResult(p0)
 
             var lastLocation = p0.lastLocation
-            binding.tvcity.text = "Sua localização é: \nLat:" + lastLocation.latitude + "; Long:" + lastLocation.longitude
+            binding.tvcity.text = "Sua cidade é:\n" + getCity(lastLocation.latitude,lastLocation.longitude)
 
         }
     }
 
+    private fun getCity(lat : Double, long : Double) : String{
+        var city = ""
+        var geoCoder = Geocoder(this, Locale.getDefault())
+        var adress: MutableList<Address> = geoCoder.getFromLocation(lat,long,10)
+
+        if (adress != null && adress.size > 0) {
+            adress.forEach {
+                if (it.getLocality() != null && it.getLocality().length > 0) {
+                    city = it.getLocality();
+                }
+            }
+        }
+
+        return city
+    }
+
     private fun checkPermission() : Boolean{
         if( ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED   )
+            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
                 return true
         return false
     }
