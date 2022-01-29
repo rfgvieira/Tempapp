@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.temperapp.databinding.ActivityMainBinding
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
@@ -13,7 +14,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        val model = intent.getStringArrayExtra("model")
+
+        val model = intent.getStringArrayListExtra("model")
 
 
 
@@ -29,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun setValues(model: Array<String>?) {
+    private fun setValues(model: ArrayList<String>?) {
         setClima(model?.get(0),model?.get(1))
         temp = model?.get(2)?.toDouble() ?: 0.0
         btnCelsiusClick()
