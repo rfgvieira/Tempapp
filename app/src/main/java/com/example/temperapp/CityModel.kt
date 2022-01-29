@@ -44,7 +44,11 @@ class CityModel{
         val cod: Long
     ){
         override fun toString(): String {
-            return "CityModel(coord=$coord, weather=$weather, base='$base', main=$main, visibility=$visibility, wind=$wind, clouds=$clouds, dt=$dt, sys=$sys, timezone=$timezone, id=$id, name='$name', cod=$cod)"
+            return "CityModel(weather=$weather, base='$base', main=$main, visibility=$visibility, wind=$wind, clouds=$clouds, dt=$dt, sys=$sys, timezone=$timezone, id=$id, name='$name', cod=$cod)"
+        }
+
+        fun desiredArray(): ArrayList<String> {
+            return  ArrayList(listOf(weather[0].main,weather[0].description,main.temp.toString(),main.humidity.toString(),wind.speed.toString(),main.pressure.toString()))
         }
     }
 
@@ -79,7 +83,11 @@ class CityModel{
 
         @SerializedName("humidity")
         val humidity: Long
-    )
+    ){
+        override fun toString(): String {
+            return super.toString()
+        }
+    }
 
     data class Sys (
         @SerializedName("type")

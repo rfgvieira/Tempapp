@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/teal_200"
-    android:padding="@dimen/large"
+    android:padding="@dimen/xlarge"
     tools:context=".MainActivity">
 
     <TextView
@@ -20,16 +20,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/tvcidade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/txt_normal"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:layout_marginTop="@dimen/xlarge"
+        tools:text="São Paulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/resulttitle"/>
 
     <ImageView
         android:id="@+id/imvresultclima"
-        android:layout_width="@dimen/image"
-        android:layout_height="@dimen/image"
-        android:layout_marginTop="@dimen/verylarge"
+        android:layout_width="@dimen/imgclima"
+        android:layout_height="@dimen/imgclima"
+        android:layout_marginTop="@dimen/normal"
         android:src="@drawable/garoa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/resulttitle" />
+        app:layout_constraintTop_toBottomOf="@id/tvcidade" />
     <TextView
         android:id="@+id/tvresultclima"
         android:layout_width="match_parent"
@@ -38,6 +50,7 @@
         android:textColor="@color/white"
         android:textAlignment="center"
         android:layout_marginTop="@dimen/xlarge"
+        tools:text="Garoa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imvresultclima"/>
@@ -50,6 +63,7 @@
         android:textColor="@color/white"
         android:textAlignment="center"
         android:layout_marginTop="@dimen/xlarge"
+        tools:text="22°C"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvresultclima"/>
@@ -93,5 +107,67 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnfahrenheit"
         app:layout_constraintTop_toBottomOf="@id/tvresulttemp"/>
+    <ImageView
+        android:id="@+id/imgumidade"
+        android:layout_width="@dimen/imgicons"
+        android:layout_height="@dimen/imgicons"
+        android:layout_marginTop="@dimen/xlarge"
+        android:src="@drawable/umidade"
+        app:layout_constraintEnd_toStartOf="@id/tvumidade"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btncelsius" />
+    <TextView
+        android:id="@+id/tvumidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small"
+        android:layout_marginStart="@dimen/xsmall"
+        tools:text="23%"
+        android:textSize="@dimen/xnormal"
+        app:layout_constraintEnd_toStartOf="@id/imgvento"
+        app:layout_constraintStart_toEndOf="@id/imgumidade"
+        app:layout_constraintTop_toTopOf="@id/imgumidade"/>
+    <ImageView
+        android:id="@+id/imgvento"
+        android:layout_width="@dimen/imgicons"
+        android:layout_height="@dimen/imgicons"
+        android:layout_marginStart="@dimen/small"
+        android:src="@drawable/vento"
+        app:layout_constraintEnd_toStartOf="@id/tvvento"
+        app:layout_constraintStart_toEndOf="@id/tvumidade"
+        app:layout_constraintTop_toTopOf="@id/imgumidade" />
+    <TextView
+        android:id="@+id/tvvento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small"
+        android:layout_marginStart="@dimen/xsmall"
+        tools:text="123km/h"
+        android:textSize="@dimen/xnormal"
+        app:layout_constraintEnd_toStartOf="@id/imgpressao"
+        app:layout_constraintStart_toEndOf="@id/imgvento"
+        app:layout_constraintTop_toTopOf="@id/imgvento"/>
+    <ImageView
+        android:id="@+id/imgpressao"
+        android:layout_width="@dimen/imgicons"
+        android:layout_height="@dimen/imgicons"
+        android:layout_marginStart="@dimen/small"
+        android:src="@drawable/pressao"
+        app:layout_constraintEnd_toStartOf="@id/tvpressao"
+        app:layout_constraintStart_toEndOf="@id/tvvento"
+        app:layout_constraintTop_toTopOf="@id/imgumidade" />
+    <TextView
+        android:id="@+id/tvpressao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small"
+        android:layout_marginStart="@dimen/xsmall"
+        android:textSize="@dimen/xnormal"
+        tools:text="222atm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imgpressao"
+        app:layout_constraintTop_toTopOf="@id/imgpressao"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

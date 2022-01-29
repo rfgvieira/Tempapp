@@ -4,71 +4,63 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.temperapp.databinding.ActivityMainBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
-    private var ant = 0 //0 - Celsius, 1 - Fahrenheit, 2 - Kelvin
     private lateinit var binding : ActivityMainBinding
+    private var temp: Double = 0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        var result = getData()
-        var a = ""
-        //setClima()
+        val model = intent.getStringArrayExtra("model")
+
+
+
+        setValues(model)
         setContentView(binding.root)
     }
 
     override fun onResume() {
         super.onResume()
-        binding.btncelsius.setOnClickListener { ant = btnCelsiusClick(ant) }
-        binding.btnfahrenheit.setOnClickListener { ant = btnFahrenheitClick(ant) }
-        binding.btnkelvin.setOnClickListener { ant = btnKelvinClick(ant) }
+        binding.btncelsius.setOnClickListener { btnCelsiusClick() }
+        binding.btnfahrenheit.setOnClickListener { btnFahrenheitClick() }
+        binding.btnkelvin.setOnClickListener { btnKelvinClick() }
     }
 
-    fun getData() : String {
-        val retrofit = NetworkUtils.getRetrofitInstance("https://api.openweathermap.org/")
-        val endpoint = retrofit.create(WeatherApi::class.java)
-        val callback = endpoint.getCityByName("Jakarta", getString(R.string.weather_key))
-        var result = ""
-        callback.enqueue(object : Callback<CityModel.Response> {
-            override fun onResponse(call: Call<CityModel.Response>, response: Response<CityModel.Response>) {
-                var model = response.body()
-                result = model.toString()
-            }
 
-            override fun onFailure(call: Call<CityModel.Response>, t: Throwable) {
-                result = t.message ?: ""
-            }
-        })
+    private fun setValues(model: Array<String>?) {
+        setClima(model?.get(0),model?.get(1))
+        temp = model?.get(2)?.toDouble() ?: 0.0
+        btnCelsiusClick()
+        binding.tvumidade.text = "${model?.get(3)}%"
+        binding.tvvento.text = "${model?.get(4)} m/s"
+        binding.tvpressao.text = "${model?.get(5)} hPa"
 
-        return  result
     }
 
     @SuppressLint("ResourceAsColor")
-    private fun btnCelsiusClick(ant :Int) : Int{
+    private fun btnCelsiusClick(){
         resetBtnColors()
         binding.btncelsius.background = getDrawable(R.drawable.round_border_selected)
-        binding.tvresulttemp.text = convertTemp(ant,0).toString() + "°C"
-        return 0
+        binding.tvresulttemp.text = convertKtoC(temp) + "°C"
     }
 
     @SuppressLint("ResourceAsColor")
-    private fun btnFahrenheitClick(ant :Int) : Int{
+    private fun btnFahrenheitClick(){
         resetBtnColors()
         binding.btnfahrenheit.background = getDrawable(R.drawable.round_border_selected)
-        binding.tvresulttemp.text = convertTemp(ant,1).toString() + "°F"
-        return 1
+        var tempCelcius = convertKtoC(temp)
+        if(tempCelcius.contains(","))
+            tempCelcius = tempCelcius.replace(",",".")
+        binding.tvresulttemp.text = convertCtoF(tempCelcius.toDouble())+ "°F"
     }
 
     @SuppressLint("ResourceAsColor")
-    private fun btnKelvinClick(ant :Int) : Int{
+    private fun btnKelvinClick(){
         resetBtnColors()
         binding.btnkelvin.background = getDrawable(R.drawable.round_border_selected)
-        binding.tvresulttemp.text = convertTemp(ant,2).toString() + "K"
-        return 2
+        binding.tvresulttemp.text =String.format("%.1f", temp.toDouble())  + "K"
     }
 
     @SuppressLint("ResourceAsColor")
@@ -78,77 +70,60 @@ class MainActivity : AppCompatActivity() {
         binding.btnkelvin.background = getDrawable(R.drawable.rounded_border)
     }
 
-
-    private fun convertTemp(ant: Int, next : Int) : Double{
-        var temp  = binding.tvresulttemp.text as String
-        if(ant == 0){
-            temp = temp.substring(0,temp.length-2)
-            return when (next) {
-                1 -> convertCtoF(temp)
-                2 -> convertCtoK(temp)
-                else -> temp.toDouble()
-            }
-        }
-        else if (ant == 1){
-            temp = temp.substring(0,temp.length-2)
-            return when (next) {
-                0 -> convertFtoC(temp)
-                2 -> convertCtoK(convertFtoC(temp).toString())
-                else -> temp.toDouble()
-            }
-        }
-        else{
-            temp = temp.substring(0,temp.length-1)
-            return when (next) {
-                0 -> convertKtoC(temp)
-                1 -> convertCtoF(convertKtoC(temp).toString())
-                else -> temp.toDouble()
-            }
-        }
+    private fun convertKtoC(temp : Double) : String{
+        return String.format("%.1f", temp - 273)
     }
 
-    private fun convertKtoC(temp : String) : Double{
-        return String.format("%.1f", temp.toDouble() - 273).toDouble()
-    }
-
-    private fun convertCtoK(temp : String) : Double{
-        return String.format("%.1f", temp.toDouble() + 273).toDouble()
+    private fun convertCtoK(temp : Double) : String{
+        return String.format("%.1f", temp + 273)
 
     }
 
-    private fun convertCtoF(temp : String) : Double{
-        return String.format("%.1f", (temp.toDouble() * 1.8) + 32).toDouble()
+    private fun convertCtoF(temp : Double) : String{
+        return String.format("%.1f", (temp * 1.8) + 32)
 
     }
 
-    private fun convertFtoC(temp : String) : Double{
-        return String.format("%.1f", (temp.toDouble() - 32) / 1.8).toDouble()
+    private fun convertFtoC(temp : Double) : String{
+        return String.format("%.1f", (temp - 32) / 1.8)
     }
 
 
-    private fun setClima(clima :String){
+    private fun setClima(clima: String?, climadesc: String?){
         when(clima){
-            "Clear Sky" -> {
+            "Clear" -> {
                 binding.imvresultclima.setImageResource(R.drawable.ensolarado)
-                binding.clresult.setBackgroundColor(resources.getColor(R.color.teal_200))}
-            "Parcialmente Nublado" ->  {
-                binding.imvresultclima.setImageResource(R.drawable.parcialmentenublado)
-                binding.clresult.setBackgroundColor(resources.getColor(R.color.teal_200))}
-            "Muito Nublado" -> {
-                binding.imvresultclima.setImageResource(R.drawable.muitonublado)
-                binding.clresult.setBackgroundColor(resources.getColor(R.color.teal_200))}
+                binding.clresult.setBackgroundColor(resources.getColor(R.color.teal_200))
+                binding.tvresultclima.text = "Ensolarado"}
             "Clouds" -> {
-                binding.imvresultclima.setImageResource(R.drawable.nublado)
-                binding.clresult.setBackgroundColor(resources.getColor(R.color.azul))}
-            "Garoa" -> {
+                if(climadesc == "few clouds: 11-25%"){
+                    binding.imvresultclima.setImageResource(R.drawable.parcialmentenublado)
+                    binding.clresult.setBackgroundColor(resources.getColor(R.color.teal_200))
+                    binding.tvresultclima.text = "Parcialmente Nublado"
+                } else{
+                    binding.imvresultclima.setImageResource(R.drawable.nublado)
+                    binding.clresult.setBackgroundColor(resources.getColor(R.color.azul))
+                    binding.tvresultclima.text = "Nublado"
+                }}
+            "Drizzle" -> {
                 binding.imvresultclima.setImageResource(R.drawable.garoa)
-                binding.clresult.setBackgroundColor(resources.getColor(R.color.azul))}
+                binding.clresult.setBackgroundColor(resources.getColor(R.color.azul))
+                binding.tvresultclima.text = "Garoa"}
             "Rain" -> {
                 binding.imvresultclima.setImageResource(R.drawable.chuvoso)
-                binding.clresult.setBackgroundColor(resources.getColor(R.color.azul))}
-            "Tempestade" -> {
+                binding.clresult.setBackgroundColor(resources.getColor(R.color.azul))
+                binding.tvresultclima.text = "Chuvoso"}
+            "Thunderstorm" -> {
                 binding.imvresultclima.setImageResource(R.drawable.tempestade)
-                binding.clresult.setBackgroundColor(resources.getColor(R.color.azulescuro))}
+                binding.clresult.setBackgroundColor(resources.getColor(R.color.azulescuro))
+                binding.tvresultclima.text = "Tempestade"}
+            "Snow" -> { binding.imvresultclima.setImageResource(R.drawable.neve)
+                binding.clresult.setBackgroundColor(resources.getColor(R.color.azulescuro))
+                binding.tvresultclima.text = "Neve"}
+            "Mist","Smoke","Haze","Dust","Fog","Sand","Ash","Squall","Tornado" -> {
+                binding.imvresultclima.setImageResource(R.drawable.nevoa)
+                binding.clresult.setBackgroundColor(resources.getColor(R.color.azulescuro))
+                binding.tvresultclima.text = clima}
         }
     }
 }

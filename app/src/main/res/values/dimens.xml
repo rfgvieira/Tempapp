@@ -17,5 +17,6 @@
     <dimen name="txt_large">64sp</dimen>
 
     <dimen name="verylarge">100dp</dimen>
-    <dimen name="image">150dp</dimen>
+    <dimen name="imgclima">150dp</dimen>
+    <dimen name="imgicons">40dp</dimen>
 </resources>
